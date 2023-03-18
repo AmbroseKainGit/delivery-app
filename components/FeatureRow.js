@@ -1,20 +1,8 @@
 import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
-const testObj = {
-  id: 123,
-  imgUrl: "https://links.papareact.com/gn7",
-  title: "YO! sushi",
-  rating: 2.3,
-  genre: "GAy porn",
-  address: "Guamo avenue",
-  short_description: "Aja",
-  dishes: "",
-  long: "",
-  lat: "",
-};
-const FeatureRow = ({ id, title, description }) => {
+const FeatureRow = ({ id, title, description, restaurants }) => {
   return (
     <View>
       <View className="mt-4 flex-row items-center justify-between px-4">
@@ -31,7 +19,9 @@ const FeatureRow = ({ id, title, description }) => {
         className="pt-4"
       >
         {/* Restaurant Cards */}
-        <RestaurantCard {...testObj} />
+        {restaurants?.map((res) => (
+          <RestaurantCard key={res._id} {...res} id={res._id} />
+        ))}
       </ScrollView>
     </View>
   );
