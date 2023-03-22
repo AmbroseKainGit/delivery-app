@@ -19,7 +19,6 @@ import Categories from "../components/Categories";
 import FeatureRow from "../components/FeatureRow";
 const HomeScreen = () => {
   const [featuredCategories, setFeaturedCategories] = useState([]);
-  const [data, setData] = useState([]);
   const navigation = useNavigation();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,13 +26,18 @@ const HomeScreen = () => {
     });
   }, []);
   useEffect(() => {
-    fetch(
-      "https://cgqwdj0z.api.sanity.io/v2021-10-21/data/query/production?query=*%5B_type%20%3D%3D%20%22featured%22%5D%20%7B%0A%20%20%20%20%20%20...%2C%0A%20%20%20%20%20%20restaurants%5B%5D-%3E%7B%0A%20%20%20%20%20%20%20%20...%2C%0A%20%20%20%20%20%20%20%20dishes%5B%5D-%3E%2C%0A%20%20%20%20%20%20%20%20type-%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D"
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setFeaturedCategories(res.result);
-      });
+    const fetchFeaturedCategories = async () => {
+      try {
+        const res = await fetch(
+          "https://cgqwdj0z.api.sanity.io/v2021-10-21/data/query/production?query=*%5B_type%20%3D%3D%20%22featured%22%5D%20%7B%0A%20%20%20%20%20%20...%2C%0A%20%20%20%20%20%20restaurants%5B%5D-%3E%7B%0A%20%20%20%20%20%20%20%20...%2C%0A%20%20%20%20%20%20%20%20dishes%5B%5D-%3E%2C%0A%20%20%20%20%20%20%20%20type-%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20name%0A%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%7D"
+        );
+        const data = await res.json();
+        setFeaturedCategories(data.result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchFeaturedCategories();
   }, []);
 
   return (
@@ -72,7 +76,7 @@ const HomeScreen = () => {
         }}
       >
         {/* Categories */}
-        <Categories categories={data.categories} />
+        <Categories />
 
         {/* Feature Row */}
         {featuredCategories?.map((category) => (

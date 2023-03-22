@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
 const FeatureRow = ({ id, title, description, restaurants }) => {
@@ -13,7 +13,7 @@ const FeatureRow = ({ id, title, description, restaurants }) => {
       <ScrollView
         horizontal
         contentContainerStyle={{
-          paddingHorizontal: 15,
+          paddingHorizontal: 15
         }}
         showsHorizontalScrollIndicator={false}
         className="pt-4"
